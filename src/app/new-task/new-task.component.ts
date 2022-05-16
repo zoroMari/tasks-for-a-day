@@ -7,7 +7,6 @@ import { ITask } from '../interfaces/ITask';
   styleUrls: ['./new-task.component.sass']
 })
 export class NewTaskComponent implements OnInit {
-  dis = true;
   public task: ITask = {
     name: null,
     status: 'TO DO',

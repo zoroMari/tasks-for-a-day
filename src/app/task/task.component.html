@@ -1,26 +1,32 @@
-<div class="row">
-  <div class="col-xs-12 col-md-8 col-md-offset-2">
-    <div class="Task">
-      <div class="row">
-        <h3 class="col-xs-11">{{ task.name }}</h3>
+<div class="Task row">
+  <div class="col-12">
+    <div class="row justify-content-between align-items-center">
+
+      <div class="col-auto mt-4">
+        <h3 >{{ task.name }}</h3>
+      </div>
+
+      <div class="col-auto">
         <button
           type="button"
           class="btn btn-default removeTask"
-          aria-label="Right Align"
           (click)="handleRemoveTask()"
         >
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+          </svg>
         </button>
       </div>
 
-      <hr>
-
-      <p>This task is {{ task.status }}</p>
-
-      <button class="btn btn-primary" (click)="handleChangeStatus('TO DO')">Set to 'TO DO'</button>
-      <button class="btn btn-warning" (click)="handleChangeStatus('IN WORK')">Set to 'IN WORK'</button>
-      <button class="btn btn-success" (click)="handleChangeStatus('DONE')">Set to 'DONE'</button>
     </div>
+
+    <hr>
+
+    <p>This task is {{ task.status }}</p>
+
+    <button class="btn btn-primary" (click)="handleChangeStatus('TO DO')">Set to 'TO DO'</button>
+    <button class="btn btn-warning" (click)="handleChangeStatus('IN WORK')">Set to 'IN WORK'</button>
+    <button class="btn btn-success" (click)="handleChangeStatus('DONE')">Set to 'DONE'</button>
   </div>
 </div>
 
