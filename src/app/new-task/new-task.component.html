@@ -1,0 +1,39 @@
+ <form class="row Form">
+    <div class="Name col-sm-12 col-md-6 mb-2">
+      <label for="nameForTask" class="form-label">Task Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nameForTask"
+        #taskName
+        [(ngModel)]="task.name"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
+
+    <div class="Status col-sm-12 col-md-6 mb-2">
+      <label for="statusForTask" class="form-label">Task Status</label>
+      <select
+        #taskStatus
+        class="form-select"
+        id="statusForTask"
+        [(ngModel)]="task.status"
+        [ngModelOptions]="{standalone: true}"
+      >
+        <option value="TO DO">To do</option>
+        <option value="IN WORK">In work</option>
+        <option value="DONE">Done</option>
+      </select>
+    </div>
+
+    <div class="col-12 mt-2">
+      <button
+        [disabled]="!task.name"
+        (click)="handleAddTask()"
+        class="btn btn-outline-primary"
+      >
+        Add task
+      </button>
+    </div>
+
+  </form>
