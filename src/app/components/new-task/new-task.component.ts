@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { ITask } from '../interfaces/ITask';
+import { ITask } from '../../interfaces/ITask';
+import { Status } from '../../interfaces/Status';
 
 @Component({
   selector: 'app-new-task',
@@ -9,7 +10,7 @@ import { ITask } from '../interfaces/ITask';
 export class NewTaskComponent implements OnInit {
   public task: ITask = {
     name: null,
-    status: 'TO DO',
+    status: Status.toDo,
   }
 
   @Output() onAddTask = new EventEmitter<ITask>();
@@ -29,5 +30,6 @@ export class NewTaskComponent implements OnInit {
     );
 
     this.task.name = null;
+    this.task.status = Status.toDo;
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ITask } from './interfaces/ITask';
+import { Status } from './interfaces/Status';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,18 @@ import { ITask } from './interfaces/ITask';
 })
 export class AppComponent {
   tasks: ITask[] = [];
+  public status: Status = Status.all;
 
   constructor() {
+  }
+
+  public ngOnInit(): void {
     this.openTasks();
+  }
+
+  public get filteredTasks(): ITask[] {
+    if (this.status === Status.all) return this.tasks;
+    return this.tasks.filter(({ status }) => status === this.status);
   }
 
   openTasks() {
@@ -27,6 +37,7 @@ export class AppComponent {
   handleChangeStatus(updateTaskInfo: { id: number, newStatus: string }) {
     this.tasks[updateTaskInfo.id].status = updateTaskInfo.newStatus;
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    this.handleFilterTasks(this.status);
   }
 
   handleRemoveTask(id: number) {
@@ -39,6 +50,10 @@ export class AppComponent {
   handleClearTasks() {
     this.tasks = [];
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  handleFilterTasks(status: Status) {
+    this.status = status;
   }
 
 }

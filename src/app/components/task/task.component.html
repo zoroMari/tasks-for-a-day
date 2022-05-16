@@ -1,4 +1,4 @@
-<div [ngStyle]="{ borderColor: statusColor() }" class="Task row">
+<div appStatusColor="borderColor" [status]="task.status" class="Task row">
   <div class="col-12">
     <div class="row justify-content-between align-items-center">
 
@@ -22,11 +22,11 @@
 
     <hr>
 
-    <p [ngStyle]="{ color: statusColor() }">{{ task.status }}</p>
+    <p appStatusColor="color" [status]="task.status">{{ task.status }}</p>
 
-    <button class="btn btn-primary" (click)="handleChangeStatus('TO DO')">Set to 'TO DO'</button>
-    <button class="btn btn-warning" (click)="handleChangeStatus('IN WORK')">Set to 'IN WORK'</button>
-    <button class="btn btn-success" (click)="handleChangeStatus('DONE')">Set to 'DONE'</button>
+    <button class="btn btn-primary" (click)="handleChangeStatus(Status.toDo)">Set to 'TO DO'</button>
+    <button class="btn btn-warning" (click)="handleChangeStatus(Status.inWork)">Set to 'IN WORK'</button>
+    <button class="btn btn-success" (click)="handleChangeStatus(Status.done)">Set to 'DONE'</button>
   </div>
 </div>
 
