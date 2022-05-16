@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ITask } from '../interfaces/ITask';
+import { ITask } from '../../interfaces/ITask';
+import { Status } from '../../interfaces/Status';
+import { StatusColor } from '../../interfaces/StatusColor';
 
 @Component({
   selector: 'app-task',
@@ -11,6 +13,7 @@ export class TaskComponent implements OnInit {
   @Input() id: number;
   @Output() onChangeStatus = new EventEmitter<{id: number, newStatus: string}>();
   @Output() onDeleteTask = new EventEmitter<number>();
+  public readonly Status = Status;
 
   constructor() { }
 
@@ -23,17 +26,6 @@ export class TaskComponent implements OnInit {
 
   handleRemoveTask() {
     this.onDeleteTask.emit(this.id);
-  }
-
-  statusColor() {
-    switch(this.task.status) {
-      case 'TO DO':
-        return 'blue';
-      case 'IN WORK':
-        return 'orange';
-      case 'DONE':
-        return 'green';
-    }
   }
 
 }
