@@ -18,11 +18,22 @@ export class TaskComponent implements OnInit {
   }
 
   handleChangeStatus(status: string) {
-    this.onChangeStatus.emit({id: this.id, newStatus: status});
+    this.onChangeStatus.emit( {id: this.id, newStatus: status} );
   }
 
   handleRemoveTask() {
     this.onDeleteTask.emit(this.id);
+  }
+
+  statusColor() {
+    switch(this.task.status) {
+      case 'TO DO':
+        return 'blue';
+      case 'IN WORK':
+        return 'orange';
+      case 'DONE':
+        return 'green';
+    }
   }
 
 }
