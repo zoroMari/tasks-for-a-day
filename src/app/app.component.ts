@@ -10,7 +10,13 @@ export class AppComponent {
   tasks: ITask[] = [];
 
   constructor() {
-    this.tasks = JSON.parse(localStorage.getItem('tasks'));
+    this.openTasks();
+  }
+
+  openTasks() {
+    localStorage.getItem('tasks')
+      ? this.tasks = JSON.parse(localStorage.getItem('tasks'))
+      : this.tasks = [];
   }
 
   handleAddTask(task: ITask) {

@@ -25,6 +25,9 @@ export class NewTaskComponent implements OnInit {
       {
         name: this.task.name,
         status: this.task.status,
-      });
+      }
+    );
+
+    this.task.name = null;
   }
 }
