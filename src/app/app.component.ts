@@ -23,7 +23,7 @@ export class AppComponent {
     return this.tasks.filter(({ status }) => status === this.status);
   }
 
-  openTasks() {
+  private openTasks() {
     localStorage.getItem('tasks')
       ? this.tasks = JSON.parse(localStorage.getItem('tasks'))
       : this.tasks = [];
@@ -34,16 +34,15 @@ export class AppComponent {
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
-  handleChangeStatus(updateTaskInfo: { id: number, newStatus: string }) {
-    this.tasks[updateTaskInfo.id].status = updateTaskInfo.newStatus;
+  handleChangeStatus(updateTaskInfo: ITask) {
+    this.tasks[this.taskIndexById(updateTaskInfo.id)].status = updateTaskInfo.status;
+
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
     this.handleFilterTasks(this.status);
   }
 
   handleRemoveTask(id: number) {
-    if (id > -1) {
-      this.tasks.splice(id, 1);
-    }
+    this.tasks.splice(this.taskIndexById(id), 1);
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
@@ -54,6 +53,10 @@ export class AppComponent {
 
   handleFilterTasks(status: Status) {
     this.status = status;
+  }
+
+  private taskIndexById(id: number) {
+    return this.tasks.indexOf(this.tasks.find((item) => item.id === id));
   }
 
 }

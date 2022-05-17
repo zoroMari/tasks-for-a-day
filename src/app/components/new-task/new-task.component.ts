@@ -8,9 +8,11 @@ import { Status } from '../../interfaces/Status';
   styleUrls: ['./new-task.component.sass']
 })
 export class NewTaskComponent implements OnInit {
+
   public task: ITask = {
     name: null,
     status: Status.toDo,
+    id: null,
   }
 
   @Output() onAddTask = new EventEmitter<ITask>();
@@ -21,11 +23,17 @@ export class NewTaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  private get taskId() {
+    return Date.now() * Math.random();
+  }
+
+
   handleAddTask() {
     this.onAddTask.emit(
       {
         name: this.task.name,
         status: this.task.status,
+        id: this.taskId,
       }
     );
 

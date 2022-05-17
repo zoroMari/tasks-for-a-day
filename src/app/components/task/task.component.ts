@@ -10,8 +10,8 @@ import { StatusColor } from '../../interfaces/StatusColor';
 })
 export class TaskComponent implements OnInit {
   @Input() task: ITask;
-  @Input() id: number;
-  @Output() onChangeStatus = new EventEmitter<{id: number, newStatus: string}>();
+  // @Input() id: number;
+  @Output() onChangeStatus = new EventEmitter<ITask>();
   @Output() onDeleteTask = new EventEmitter<number>();
   public readonly Status = Status;
 
@@ -21,11 +21,11 @@ export class TaskComponent implements OnInit {
   }
 
   handleChangeStatus(status: string) {
-    this.onChangeStatus.emit( {id: this.id, newStatus: status} );
+    this.onChangeStatus.emit( {name: this.task.name, id: this.task.id, status: status} );
   }
 
   handleRemoveTask() {
-    this.onDeleteTask.emit(this.id);
+    this.onDeleteTask.emit(this.task.id);
   }
 
 }
