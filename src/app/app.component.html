@@ -17,9 +17,8 @@
       <app-tabs (onFilterStatus)="handleFilterTasks($event)"></app-tabs>
 
       <app-task
-        *ngFor="let task of filteredTasks; let i = index"
+        *ngFor="let task of filteredTasks"
         [task]=task
-        [id]=i
         (onChangeStatus)="handleChangeStatus($event)"
         (onDeleteTask)="handleRemoveTask($event)"
       >
