@@ -10,7 +10,6 @@ import { StatusColor } from '../../interfaces/StatusColor';
 })
 export class TaskComponent implements OnInit {
   @Input() task: ITask;
-  // @Input() id: number;
   @Output() onChangeStatus = new EventEmitter<ITask>();
   @Output() onDeleteTask = new EventEmitter<number>();
   public readonly Status = Status;
