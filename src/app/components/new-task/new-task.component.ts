@@ -40,4 +40,8 @@ export class NewTaskComponent implements OnInit {
     this.task.name = null;
     this.task.status = Status.toDo;
   }
+
+  get isDisabledButton() {
+    return !this.task.name || !this.task.name.trim()
+  }
 }

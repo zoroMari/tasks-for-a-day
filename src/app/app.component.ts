@@ -55,8 +55,8 @@ export class AppComponent {
     this.status = status;
   }
 
-  private taskIndexById(id: number) {
-    return this.tasks.indexOf(this.tasks.find((item) => item.id === id));
+  private taskIndexById(id: number): number {
+    return this.tasks.findIndex((item) => item.id === id);
   }
 
 }
