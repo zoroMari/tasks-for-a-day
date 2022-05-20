@@ -1,11 +1,19 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable, OnInit } from "@angular/core";
 import { Status } from "../interfaces/Status";
 import { ITask } from "../interfaces/ITask";
 
 @Injectable({ providedIn: 'root' })
-export class TasksService {
-  public tasks: ITask[] = [];
+export class TasksService implements OnInit{
+  private _tasks: ITask[] = [];
   public status: Status = Status.all;
+  public statusChanged = new EventEmitter<Status>();
+
+  ngOnInit() {
+  }
+
+  public get tasks(): ITask[] {
+    return this._tasks;
+  }
 
   public get filteredTasks(): ITask[] {
     if (this.status === Status.all) return this.tasks;
@@ -14,40 +22,38 @@ export class TasksService {
 
   public openTasks() {
     localStorage.getItem('tasks')
-      ? this.tasks = JSON.parse(localStorage.getItem('tasks'))
-      : this.tasks = [];
+      ? this._tasks = JSON.parse(localStorage.getItem('tasks'))
+      : this._tasks = [];
   }
 
-  handleAddTask(task: ITask) {
-    this.tasks.push(task);
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    console.log('this.tasks >>>', this.tasks);
-    console.log('this.filteredTasks >>>', this.filteredTasks);
+  public addTask(task: ITask) {
+    this._tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(this._tasks));
   }
 
-  handleChangeStatus(updateTaskInfo: ITask) {
-    this.tasks[this.taskIndexById(updateTaskInfo.id)].status = updateTaskInfo.status;
+  public changeStatus(updateTaskInfo: ITask) {
+    this._tasks[this.taskIndexById(updateTaskInfo.id)].status = updateTaskInfo.status;
 
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    this.handleFilterTasks(this.status);
+    localStorage.setItem('tasks', JSON.stringify(this._tasks));
+    this.filterTasks(this.status);
   }
 
-  handleRemoveTask(id: number) {
-    this.tasks.splice(this.taskIndexById(id), 1);
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  public removeTask(id: number) {
+    this._tasks.splice(this.taskIndexById(id), 1);
+    localStorage.setItem('tasks', JSON.stringify(this._tasks));
   }
 
-  handleClearTasks() {
-    this.tasks = [];
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    console.log('this.tasks >>>', this.tasks);
+  public clearTasks() {
+    this._tasks = [];
+    localStorage.setItem('tasks', JSON.stringify(this._tasks));
   }
 
-  handleFilterTasks(status: Status) {
+  public filterTasks(status: Status) {
     this.status = status;
+    return this.filteredTasks;
   }
 
   private taskIndexById(id: number): number {
-    return this.tasks.findIndex((item) => item.id === id);
+    return this._tasks.findIndex((item) => item.id === id);
   }
 }

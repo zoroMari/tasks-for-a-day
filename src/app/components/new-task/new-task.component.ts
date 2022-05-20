@@ -13,7 +13,6 @@ export class NewTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.task.id = this.taskId;
   }
 
   public task: ITask = {
@@ -22,18 +21,18 @@ export class NewTaskComponent implements OnInit {
     id: null,
   }
 
-  private get taskId() {
+  private get _taskId() {
     return Date.now() * Math.random();
   }
 
+  public handleAddTask() {
+    this.task.id = this._taskId;
 
-  handleAddTask() {
-    console.log('this.task >>>', this.task);
-    this._taskSercive.handleAddTask (
+    this._taskSercive.addTask (
       {
         name: this.task.name,
         status: this.task.status,
-        id: this.task.id,
+        id: this._taskId,
       }
     );
 

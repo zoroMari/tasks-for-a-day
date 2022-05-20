@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ITask } from './interfaces/ITask';
 import { Status } from './interfaces/Status';
 import { TasksService } from './services/tasks.service';
@@ -8,25 +8,31 @@ import { TasksService } from './services/tasks.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   tasks: ITask[];
-  filteredTasks: ITask[] = [{name: '1', status: 'TO DO', id: 682347124775.523}];
+  filteredTasks: ITask[];
 
   constructor(private _tasksService: TasksService) {
   }
 
   public ngOnInit(): void {
-    this.tasks = this._tasksService.tasks;
-    // this.filteredTasks = this._tasksService.filteredTasks;
     this._tasksService.openTasks();
 
-    console.log('this.tasks >>>', this.tasks);
-    console.log('this._tasksService.tasks >>>', this._tasksService.tasks);
-    console.log('this.filteredTasks >>>', this.filteredTasks);
-    console.log('this._tasksService.filteredTasks >>>', this._tasksService.filteredTasks);
+    this.tasks = this._tasksService.tasks;
+    this.filteredTasks = this._tasksService.filteredTasks;
+
+    this._tasksService.statusChanged
+      .subscribe(
+        (status: Status) => {
+          this.filteredTasks = this._tasksService.filterTasks(status);
+        }
+      )
   }
 
   handleClearTasks() {
-    this._tasksService.handleClearTasks();
+    this._tasksService.clearTasks();
+
+    this.tasks = this._tasksService.tasks;
+    this.filteredTasks = this._tasksService.filteredTasks;
   }
 }

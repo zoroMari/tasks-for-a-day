@@ -18,12 +18,12 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleChangeStatus(status: string) {
-    this._tasksService.handleChangeStatus( {name: this.task.name, id: this.task.id, status: status} );
+  public handleChangeStatus(status: string) {
+    this._tasksService.changeStatus( {name: this.task.name, id: this.task.id, status: status} );
   }
 
-  handleRemoveTask() {
-    this._tasksService.handleRemoveTask(this.task.id);
+  public handleRemoveTask() {
+    this._tasksService.removeTask(this.task.id);
   }
 
 }
