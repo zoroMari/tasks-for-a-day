@@ -36,6 +36,7 @@ export class TasksService implements OnInit{
 
     localStorage.setItem('tasks', JSON.stringify(this._tasks));
     this.filterTasks(this.status);
+    this.statusChanged.emit(this.status);
   }
 
   public removeTask(id: number) {
