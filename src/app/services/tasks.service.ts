@@ -7,17 +7,14 @@ export class TasksService implements OnInit{
   private _tasks: ITask[] = [];
   public status: Status = Status.all;
   public statusChanged = new EventEmitter<Status>();
+  public tasksChanged = new EventEmitter<ITask[]>();
 
   ngOnInit() {
   }
 
-  public get tasks(): ITask[] {
-    return this._tasks;
-  }
-
   public get filteredTasks(): ITask[] {
-    if (this.status === Status.all) return this.tasks;
-    return this.tasks.filter(({ status }) => status === this.status);
+    if (this.status === Status.all) return this._tasks;
+    return this._tasks.filter(({ status }) => status === this.status);
   }
 
   public openTasks() {
@@ -29,6 +26,7 @@ export class TasksService implements OnInit{
   public addTask(task: ITask) {
     this._tasks.push(task);
     localStorage.setItem('tasks', JSON.stringify(this._tasks));
+    this.tasksChanged.emit(this.filteredTasks);
   }
 
   public changeStatus(updateTaskInfo: ITask) {
@@ -42,11 +40,13 @@ export class TasksService implements OnInit{
   public removeTask(id: number) {
     this._tasks.splice(this.taskIndexById(id), 1);
     localStorage.setItem('tasks', JSON.stringify(this._tasks));
+    this.tasksChanged.emit(this.filteredTasks);
   }
 
   public clearTasks() {
     this._tasks = [];
     localStorage.setItem('tasks', JSON.stringify(this._tasks));
+    this.tasksChanged.emit(this.filteredTasks);
   }
 
   public filterTasks(status: Status) {

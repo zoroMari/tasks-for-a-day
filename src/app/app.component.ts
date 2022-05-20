@@ -9,7 +9,6 @@ import { TasksService } from './services/tasks.service';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements OnInit {
-  tasks: ITask[];
   filteredTasks: ITask[];
 
   constructor(private _tasksService: TasksService) {
@@ -18,7 +17,6 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this._tasksService.openTasks();
 
-    this.tasks = this._tasksService.tasks;
     this.filteredTasks = this._tasksService.filteredTasks;
 
     this._tasksService.statusChanged
@@ -27,12 +25,16 @@ export class AppComponent implements OnInit {
           this.filteredTasks = this._tasksService.filterTasks(status);
         }
       )
+
+    this._tasksService.tasksChanged
+      .subscribe(
+        (tasks: ITask[]) => {
+          this.filteredTasks = tasks;
+        }
+      )
   }
 
   handleClearTasks() {
     this._tasksService.clearTasks();
-
-    this.tasks = this._tasksService.tasks;
-    this.filteredTasks = this._tasksService.filteredTasks;
   }
 }
