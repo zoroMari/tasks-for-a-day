@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TasksService } from 'src/app/services/tasks.service';
 import { ITask } from '../../interfaces/ITask';
 import { Status } from '../../interfaces/Status';
 import { StatusColor } from '../../interfaces/StatusColor';
@@ -10,21 +11,19 @@ import { StatusColor } from '../../interfaces/StatusColor';
 })
 export class TaskComponent implements OnInit {
   @Input() task: ITask;
-  @Output() onChangeStatus = new EventEmitter<ITask>();
-  @Output() onDeleteTask = new EventEmitter<number>();
   public readonly Status = Status;
 
-  constructor() { }
+  constructor(private _tasksService: TasksService) { }
 
   ngOnInit(): void {
   }
 
   handleChangeStatus(status: string) {
-    this.onChangeStatus.emit( {name: this.task.name, id: this.task.id, status: status} );
+    this._tasksService.handleChangeStatus( {name: this.task.name, id: this.task.id, status: status} );
   }
 
   handleRemoveTask() {
-    this.onDeleteTask.emit(this.task.id);
+    this._tasksService.handleRemoveTask(this.task.id);
   }
 
 }

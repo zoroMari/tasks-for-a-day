@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { TasksService } from 'src/app/services/tasks.service';
 import { ITask } from '../../interfaces/ITask';
 import { Status } from '../../interfaces/Status';
 
@@ -8,19 +9,17 @@ import { Status } from '../../interfaces/Status';
   styleUrls: ['./new-task.component.sass']
 })
 export class NewTaskComponent implements OnInit {
+  constructor(private _taskSercive: TasksService ) {
+  }
+
+  ngOnInit(): void {
+    this.task.id = this.taskId;
+  }
 
   public task: ITask = {
     name: null,
     status: Status.toDo,
     id: null,
-  }
-
-  @Output() onAddTask = new EventEmitter<ITask>();
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
   }
 
   private get taskId() {
@@ -29,11 +28,12 @@ export class NewTaskComponent implements OnInit {
 
 
   handleAddTask() {
-    this.onAddTask.emit(
+    console.log('this.task >>>', this.task);
+    this._taskSercive.handleAddTask (
       {
         name: this.task.name,
         status: this.task.status,
-        id: this.taskId,
+        id: this.task.id,
       }
     );
 

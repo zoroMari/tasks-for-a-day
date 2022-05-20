@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ITask } from './interfaces/ITask';
 import { Status } from './interfaces/Status';
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -8,55 +9,24 @@ import { Status } from './interfaces/Status';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  tasks: ITask[] = [];
-  public status: Status = Status.all;
+  tasks: ITask[];
+  filteredTasks: ITask[] = [{name: '1', status: 'TO DO', id: 682347124775.523}];
 
-  constructor() {
+  constructor(private _tasksService: TasksService) {
   }
 
   public ngOnInit(): void {
-    this.openTasks();
-  }
+    this.tasks = this._tasksService.tasks;
+    // this.filteredTasks = this._tasksService.filteredTasks;
+    this._tasksService.openTasks();
 
-  public get filteredTasks(): ITask[] {
-    if (this.status === Status.all) return this.tasks;
-    return this.tasks.filter(({ status }) => status === this.status);
-  }
-
-  private openTasks() {
-    localStorage.getItem('tasks')
-      ? this.tasks = JSON.parse(localStorage.getItem('tasks'))
-      : this.tasks = [];
-  }
-
-  handleAddTask(task: ITask) {
-    this.tasks.push(task);
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-  }
-
-  handleChangeStatus(updateTaskInfo: ITask) {
-    this.tasks[this.taskIndexById(updateTaskInfo.id)].status = updateTaskInfo.status;
-
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    this.handleFilterTasks(this.status);
-  }
-
-  handleRemoveTask(id: number) {
-    this.tasks.splice(this.taskIndexById(id), 1);
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    console.log('this.tasks >>>', this.tasks);
+    console.log('this._tasksService.tasks >>>', this._tasksService.tasks);
+    console.log('this.filteredTasks >>>', this.filteredTasks);
+    console.log('this._tasksService.filteredTasks >>>', this._tasksService.filteredTasks);
   }
 
   handleClearTasks() {
-    this.tasks = [];
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    this._tasksService.handleClearTasks();
   }
-
-  handleFilterTasks(status: Status) {
-    this.status = status;
-  }
-
-  private taskIndexById(id: number): number {
-    return this.tasks.findIndex((item) => item.id === id);
-  }
-
 }

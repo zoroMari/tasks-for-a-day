@@ -20,7 +20,7 @@ import { StatusColorDirective } from './directives/statusColor.directives';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

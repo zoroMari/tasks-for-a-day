@@ -12,15 +12,13 @@
         </div>
       </div>
 
-      <app-new-task (onAddTask)="handleAddTask($event)"></app-new-task>
+      <app-new-task></app-new-task>
 
-      <app-tabs (onFilterStatus)="handleFilterTasks($event)"></app-tabs>
+      <app-tabs></app-tabs>
 
       <app-task
         *ngFor="let task of filteredTasks"
         [task]=task
-        (onChangeStatus)="handleChangeStatus($event)"
-        (onDeleteTask)="handleRemoveTask($event)"
       >
       </app-task>
 
